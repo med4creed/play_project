@@ -1,0 +1,31 @@
+# Users
+
+#users:
+#
+ # - !!models.UserAccount
+  #      id: 1
+   #     mail: antoine@sample.com
+    #    nickname: natoine
+     #   password: secret
+
+#projects:
+#
+# - !!models.Project
+# id: 1
+# label: projet de base
+
+tasks:
+   - !!models.Task
+        id: 1
+        label: Tache de base
+        priority: 0
+ #project: !!models.Project
+ #id: 1
+ #user: !!models.UserAccount
+ #user:toto
+ #id: 50
+
+   - !!models.Task
+        id: 2
+        label: Tache 1
+        priority: 2
