@@ -4,14 +4,15 @@
 
 @main("Todo list") {
     
+    
     <h1>@tasks.size() task(s)</h1>
     
     <ul>
         @for(task <- tasks) {
-            <li>
-                @task.label (Priorité: @task.priority)
+            <li "@task.getId">
+                @task.getLabel (Priorité: @task.getPriority)
                 
-                @form(routes.Application.deleteTask(task.id)) {
+                @form(routes.Application.deleteTask(task.getId)) {
                     <input type="submit" value="Delete">
                 }
             </li>
@@ -23,10 +24,9 @@
     @form(routes.Application.newTask()) {
         
         @inputText(taskForm("label") ) 
-        
-		@inputText(taskForm("priority"))<p>minimum value:0</p>
+        @inputText(taskForm("priority"))<p>minimum value:0</p>
 		
-        <input type="submit" value="Create">
+        <input id="toto" type="submit" value="Create" class="btn btn-primary">
         
         
         
@@ -34,3 +34,24 @@
     }
     
 }
+    <script>
+    $(document).ready(function(){
+   		$("#toto").click(function(e){
+   			e.preventDefault();
+   			console.log("test");
+   			var la = $("#label").val();
+   			var pr = $("#priority").val();
+   			console.log(la);
+   			console.log(pr);
+   			var j
+   			$.ajax({
+   				url:"http://localhost:9000/taskAjax", 
+   				data:JSON.stringify({"label": la,"priority": pr}), 
+   				type: "POST", 
+   				contentType:"application/json" 
+   				
+			});
+   		});
+    });
+    </script>
+  
