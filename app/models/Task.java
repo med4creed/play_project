@@ -75,6 +75,10 @@ public class Task extends Model {
 	public static List<Task> findAll() {
 		return find.all();
 	}
+	
+	public static Task find(long id) {
+		return find.byId(id);
+	}
 
 	public static void create(Task task) {
 		task.save();

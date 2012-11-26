@@ -1,22 +1,17 @@
 package controllers;
 
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Http.RequestBody;
-import play.mvc.Http.RequestHeader;
-import play.mvc.Result;
-import views.html.index;
-import views.*;
-import models.*;
+import java.util.List;
 
-import java.util.*;
+import models.Task;
 
-import play.mvc.BodyParser;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
-import play.data.*;
+import play.data.Form;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 public class Application extends Controller {
 
@@ -31,7 +26,7 @@ public class Application extends Controller {
 	public static Result tasks() {
 		System.out.println(request().accept());
 		if (request().accepts("text/html")) {
-
+			
 			return ok(views.html.index.render(Task.findAll(), taskForm));
 		} else {
 			ObjectNode result = Json.newObject();
@@ -45,6 +40,20 @@ public class Application extends Controller {
 			return ok(result);
 		}
 
+	}
+	
+	public static Result getTask(Long id) {
+		if (request().accepts("text/html")) {
+System.out.println("test html !!!");
+			return ok(views.html.task.render(Task.find(id)));
+		} else {
+			System.out.println("test json !!!");
+			JsonNode result = Json.newObject();
+			Task task = Task.find(id);
+			result = Json.toJson(task);
+		
+			return ok(result);
+		}
 	}
 
 	public static Result newTaskAjax() {

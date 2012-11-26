@@ -7,9 +7,11 @@
     
     <h1>@tasks.size() task(s)</h1>
     
-    <ul>
+    <ul id ="addtask">
+    
         @for(task <- tasks) {
             <li "@task.getId">
+            	
                 @task.getLabel (Priorité: @task.getPriority)
                 
                 @form(routes.Application.deleteTask(task.getId)) {
@@ -26,11 +28,7 @@
         @inputText(taskForm("label") ) 
         @inputText(taskForm("priority"))<p>minimum value:0</p>
 		
-        <input id="toto" type="submit" value="Create" class="btn btn-primary">
-        
-        
-        
-        
+        <input id="toto" type="submit" value="Create" class="btn btn-primary">   
     }
     
 }
@@ -38,20 +36,29 @@
     $(document).ready(function(){
    		$("#toto").click(function(e){
    			e.preventDefault();
-   			console.log("test");
+   			console.log('http://'+$(location).attr('host')+'/taskAjax');
    			var la = $("#label").val();
    			var pr = $("#priority").val();
    			console.log(la);
    			console.log(pr);
    			var j
    			$.ajax({
-   				url:"http://localhost:9000/taskAjax", 
+   				url:'@routes.Application.newTaskAjax()', 
    				data:JSON.stringify({"label": la,"priority": pr}), 
    				type: "POST", 
-   				contentType:"application/json" 
+   				contentType:"application/json",
+   				success: function(data, status){
+   					
+   							var id = data.id;
+      					   var label=data.label;
+      					   var priority = data.priority
+      					   
+      					   $('#addtask').append("<li>"+label+" (Priorité: "+priority+")<form method='POST' action='http://"+$(location).attr('host')+"/tasks/"+id+"/delete'><input type='submit' value='Delete'></form></li>");
+      					   
+    					}
    				
 			});
    		});
-    });
+   	    });
     </script>
   
