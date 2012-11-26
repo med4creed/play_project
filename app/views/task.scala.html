@@ -1,0 +1,25 @@
+@(task: Task)
+
+@import helper._
+
+@main("Task manager") {
+    
+    
+    <h1> task numéro @task.getId </h1>
+    
+    <ul id ="addtask">
+    
+            <li "@task.getId">
+            	
+                @task.getLabel (Priorité: @task.getPriority)
+                
+                @form(routes.Application.deleteTask(task.getId)) {
+                    <input type="submit" value="Delete">
+                }
+            </li>
+      
+    </ul>
+    
+    
+}
+   
